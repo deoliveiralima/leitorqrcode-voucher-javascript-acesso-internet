@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge; text/html; charset=UTF-8">
+	<title>Captive Portal Login Page</title>
+	<link rel="stylesheet" href="css/main.css" />
+	<script src="html5-qrcode.min.js"></script>
+</head>
+
+<body>
+<div id="content">
+	<div class="login-card">
+		<h1>IFF PÁDUA</h1>
+		<img  src="assets_visitantes/logo-visitante.png"  style="width:64px;height:64px;" /><br>
+		<h2>Bem Vindo Visitante</h2>
+		<div id="error-message">
+			
+		</div>
+		
+		<form name="login_form" method="post" action="$PORTAL_ACTION$" autocomplete="off">
+			<!-- campo de leitura do qrcode -->
+			<div style="width: 300px" id="reader"></div>
+			<br>
+
+			<input name="auth_voucher" id="auth_voucher" type="text" placeholder="Código do Voucher" value="#VOUCHER#">
+			<input name="redirurl" type="hidden" value="$PORTAL_REDIRURL$">
+			
+			<div class="div_botao">
+				<input  type="submit" name="accept" class="login login-submit" value="Autenticar" id="login" >
+			</div>
+		</form>
+		
+		
+		<br  />
+		<span> <i>Made by</i> <strong>Coordenação de TIC</strong></span>
+	</div>
+</div>
+
+	<!-- Script leitura qrcode -->
+	<script>
+		function onScanSuccess(decodedText, decodedResult) {
+			// Handle on success condition with the decoded text or result.
+			console.log(`Scan result: ${decodedText}`, decodedResult);
+			//preenche o input text com o voucher lido
+			document.getElementById("auth_voucher").value = `${decodedText}`;
+
+			// parar a leitura do qrcode
+			html5QrcodeScanner.clear();
+
+		}
+
+		var html5QrcodeScanner = new Html5QrcodeScanner(
+			"reader", { fps: 10, qrbox: 250 });
+		html5QrcodeScanner.render(onScanSuccess);
+
+	</script>
+
+
+
+
+</body>
+</html>
